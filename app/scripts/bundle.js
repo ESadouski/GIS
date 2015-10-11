@@ -6,8 +6,8 @@ greet = require('./greet');
 
 console.log(greet('world!'));
 
-}).call(this,require("/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d950fb20.js","/")
-},{"./greet":2,"/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":3,"buffer":4}],2:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_8154f09a.js","/")
+},{"./greet":2,"buffer":3,"oMfpAn":6}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var greet;
 
@@ -17,66 +17,16 @@ greet = function(name) {
 
 module.exports = greet;
 
-}).call(this,require("/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/greet.js","/")
-},{"/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":3,"buffer":4}],3:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/greet.js","/")
+},{"buffer":3,"oMfpAn":6}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-// shim for using process in browser
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
 
-var process = module.exports = {};
-
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
-
-    if (canPost) {
-        var queue = [];
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-}
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-
-}).call(this,require("/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process")
-},{"/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":3,"buffer":4}],4:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var base64 = require('base64-js')
 var ieee754 = require('ieee754')
 
@@ -91,17 +41,14 @@ Buffer.poolSize = 8192
  *   === false   Use Object implementation (compatible down to IE6)
  */
 Buffer._useTypedArrays = (function () {
-   // Detect if browser supports Typed Arrays. Supported browsers are IE 10+,
-   // Firefox 4+, Chrome 7+, Safari 5.1+, Opera 11.6+, iOS 4.2+.
-   if (typeof Uint8Array === 'undefined' || typeof ArrayBuffer === 'undefined')
-      return false
-
-  // Does the browser support adding properties to `Uint8Array` instances? If
-  // not, then that's the same as no `Uint8Array` support. We need to be able to
-  // add all the node Buffer API methods.
-  // Relevant Firefox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=695438
+  // Detect if browser supports Typed Arrays. Supported browsers are IE 10+, Firefox 4+,
+  // Chrome 7+, Safari 5.1+, Opera 11.6+, iOS 4.2+. If the browser does not support adding
+  // properties to `Uint8Array` instances, then that's the same as no `Uint8Array` support
+  // because we need to be able to add all the node Buffer API methods. This is an issue
+  // in Firefox 4-29. Now fixed: https://bugzilla.mozilla.org/show_bug.cgi?id=695438
   try {
-    var arr = new Uint8Array(0)
+    var buf = new ArrayBuffer(0)
+    var arr = new Uint8Array(buf)
     arr.foo = function () { return 42 }
     return 42 === arr.foo() &&
         typeof arr.subarray === 'function' // Chrome 9-10 lack `subarray`
@@ -144,14 +91,14 @@ function Buffer (subject, encoding, noZero) {
   else if (type === 'string')
     length = Buffer.byteLength(subject, encoding)
   else if (type === 'object')
-    length = coerce(subject.length) // Assume object is an array
+    length = coerce(subject.length) // assume that object is array-like
   else
     throw new Error('First argument needs to be a number, array or string.')
 
   var buf
   if (Buffer._useTypedArrays) {
     // Preferred: Return an augmented `Uint8Array` instance for best performance
-    buf = augment(new Uint8Array(length))
+    buf = Buffer._augment(new Uint8Array(length))
   } else {
     // Fallback: Return THIS instance of Buffer (created by `new`)
     buf = this
@@ -160,9 +107,8 @@ function Buffer (subject, encoding, noZero) {
   }
 
   var i
-  if (Buffer._useTypedArrays && typeof Uint8Array === 'function' &&
-      subject instanceof Uint8Array) {
-    // Speed optimization -- use set if we're copying from a Uint8Array
+  if (Buffer._useTypedArrays && typeof subject.byteLength === 'number') {
+    // Speed optimization -- use set if we're copying from a typed array
     buf._set(subject)
   } else if (isArrayish(subject)) {
     // Treat array-ish objects as a byte array
@@ -321,6 +267,12 @@ function _base64Write (buf, string, offset, length) {
   return charsWritten
 }
 
+function _utf16leWrite (buf, string, offset, length) {
+  var charsWritten = Buffer._charsWritten =
+    blitBuffer(utf16leToBytes(string), buf, offset, length)
+  return charsWritten
+}
+
 Buffer.prototype.write = function (string, offset, length, encoding) {
   // Support both (string, offset, length, encoding)
   // and the legacy (string, encoding, offset, length)
@@ -348,25 +300,34 @@ Buffer.prototype.write = function (string, offset, length, encoding) {
   }
   encoding = String(encoding || 'utf8').toLowerCase()
 
+  var ret
   switch (encoding) {
     case 'hex':
-      return _hexWrite(this, string, offset, length)
+      ret = _hexWrite(this, string, offset, length)
+      break
     case 'utf8':
     case 'utf-8':
-    case 'ucs2': // TODO: No support for ucs2 or utf16le encodings yet
+      ret = _utf8Write(this, string, offset, length)
+      break
+    case 'ascii':
+      ret = _asciiWrite(this, string, offset, length)
+      break
+    case 'binary':
+      ret = _binaryWrite(this, string, offset, length)
+      break
+    case 'base64':
+      ret = _base64Write(this, string, offset, length)
+      break
+    case 'ucs2':
     case 'ucs-2':
     case 'utf16le':
     case 'utf-16le':
-      return _utf8Write(this, string, offset, length)
-    case 'ascii':
-      return _asciiWrite(this, string, offset, length)
-    case 'binary':
-      return _binaryWrite(this, string, offset, length)
-    case 'base64':
-      return _base64Write(this, string, offset, length)
+      ret = _utf16leWrite(this, string, offset, length)
+      break
     default:
       throw new Error('Unknown encoding')
   }
+  return ret
 }
 
 Buffer.prototype.toString = function (encoding, start, end) {
@@ -382,25 +343,34 @@ Buffer.prototype.toString = function (encoding, start, end) {
   if (end === start)
     return ''
 
+  var ret
   switch (encoding) {
     case 'hex':
-      return _hexSlice(self, start, end)
+      ret = _hexSlice(self, start, end)
+      break
     case 'utf8':
     case 'utf-8':
-    case 'ucs2': // TODO: No support for ucs2 or utf16le encodings yet
+      ret = _utf8Slice(self, start, end)
+      break
+    case 'ascii':
+      ret = _asciiSlice(self, start, end)
+      break
+    case 'binary':
+      ret = _binarySlice(self, start, end)
+      break
+    case 'base64':
+      ret = _base64Slice(self, start, end)
+      break
+    case 'ucs2':
     case 'ucs-2':
     case 'utf16le':
     case 'utf-16le':
-      return _utf8Slice(self, start, end)
-    case 'ascii':
-      return _asciiSlice(self, start, end)
-    case 'binary':
-      return _binarySlice(self, start, end)
-    case 'base64':
-      return _base64Slice(self, start, end)
+      ret = _utf16leSlice(self, start, end)
+      break
     default:
       throw new Error('Unknown encoding')
   }
+  return ret
 }
 
 Buffer.prototype.toJSON = function () {
@@ -435,9 +405,14 @@ Buffer.prototype.copy = function (target, target_start, start, end) {
   if (target.length - target_start < end - start)
     end = target.length - target_start + start
 
-  // copy!
-  for (var i = 0; i < end - start; i++)
-    target[i + target_start] = this[i + start]
+  var len = end - start
+
+  if (len < 100 || !Buffer._useTypedArrays) {
+    for (var i = 0; i < len; i++)
+      target[i + target_start] = this[i + start]
+  } else {
+    target._set(this.subarray(start, start + len), target_start)
+  }
 }
 
 function _base64Slice (buf, start, end) {
@@ -491,14 +466,22 @@ function _hexSlice (buf, start, end) {
   return out
 }
 
-// http://nodejs.org/api/buffer.html#buffer_buf_slice_start_end
+function _utf16leSlice (buf, start, end) {
+  var bytes = buf.slice(start, end)
+  var res = ''
+  for (var i = 0; i < bytes.length; i += 2) {
+    res += String.fromCharCode(bytes[i] + bytes[i+1] * 256)
+  }
+  return res
+}
+
 Buffer.prototype.slice = function (start, end) {
   var len = this.length
   start = clamp(start, len, 0)
   end = clamp(end, len, len)
 
   if (Buffer._useTypedArrays) {
-    return augment(this.subarray(start, end))
+    return Buffer._augment(this.subarray(start, end))
   } else {
     var sliceLen = end - start
     var newBuf = new Buffer(sliceLen, undefined, true)
@@ -941,7 +924,7 @@ Buffer.prototype.inspect = function () {
  * Added in Node 0.12. Only available in browsers that support ArrayBuffer.
  */
 Buffer.prototype.toArrayBuffer = function () {
-  if (typeof Uint8Array === 'function') {
+  if (typeof Uint8Array !== 'undefined') {
     if (Buffer._useTypedArrays) {
       return (new Buffer(this)).buffer
     } else {
@@ -966,9 +949,9 @@ function stringtrim (str) {
 var BP = Buffer.prototype
 
 /**
- * Augment the Uint8Array *instance* (not the class!) with Buffer methods
+ * Augment a Uint8Array *instance* (not the Uint8Array class!) with Buffer methods
  */
-function augment (arr) {
+Buffer._augment = function (arr) {
   arr._isBuffer = true
 
   // save reference to original Uint8Array get/set methods before overwriting
@@ -1082,6 +1065,20 @@ function asciiToBytes (str) {
   return byteArray
 }
 
+function utf16leToBytes (str) {
+  var c, hi, lo
+  var byteArray = []
+  for (var i = 0; i < str.length; i++) {
+    c = str.charCodeAt(i)
+    hi = c >> 8
+    lo = c % 256
+    byteArray.push(lo)
+    byteArray.push(hi)
+  }
+
+  return byteArray
+}
+
 function base64ToBytes (str) {
   return base64.toByteArray(str)
 }
@@ -1110,22 +1107,21 @@ function decodeUtf8Char (str) {
  * exceed the maximum allowed value.
  */
 function verifuint (value, max) {
-  assert(typeof value == 'number', 'cannot write a non-number as a number')
-  assert(value >= 0,
-      'specified a negative value for writing an unsigned value')
+  assert(typeof value === 'number', 'cannot write a non-number as a number')
+  assert(value >= 0, 'specified a negative value for writing an unsigned value')
   assert(value <= max, 'value is larger than maximum value for type')
   assert(Math.floor(value) === value, 'value has a fractional component')
 }
 
-function verifsint(value, max, min) {
-  assert(typeof value == 'number', 'cannot write a non-number as a number')
+function verifsint (value, max, min) {
+  assert(typeof value === 'number', 'cannot write a non-number as a number')
   assert(value <= max, 'value larger than maximum allowed value')
   assert(value >= min, 'value smaller than minimum allowed value')
   assert(Math.floor(value) === value, 'value has a fractional component')
 }
 
-function verifIEEE754(value, max, min) {
-  assert(typeof value == 'number', 'cannot write a non-number as a number')
+function verifIEEE754 (value, max, min) {
+  assert(typeof value === 'number', 'cannot write a non-number as a number')
   assert(value <= max, 'value larger than maximum allowed value')
   assert(value >= min, 'value smaller than minimum allowed value')
 }
@@ -1134,8 +1130,8 @@ function assert (test, message) {
   if (!test) throw new Error(message || 'Failed assertion')
 }
 
-}).call(this,require("/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/native-buffer-browserify/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/native-buffer-browserify")
-},{"/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":3,"base64-js":5,"buffer":4,"ieee754":6}],5:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
+},{"base64-js":4,"buffer":3,"ieee754":5,"oMfpAn":6}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -1146,18 +1142,21 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
     ? Uint8Array
     : Array
 
-	var ZERO   = '0'.charCodeAt(0)
 	var PLUS   = '+'.charCodeAt(0)
 	var SLASH  = '/'.charCodeAt(0)
 	var NUMBER = '0'.charCodeAt(0)
 	var LOWER  = 'a'.charCodeAt(0)
 	var UPPER  = 'A'.charCodeAt(0)
+	var PLUS_URL_SAFE = '-'.charCodeAt(0)
+	var SLASH_URL_SAFE = '_'.charCodeAt(0)
 
 	function decode (elt) {
 		var code = elt.charCodeAt(0)
-		if (code === PLUS)
+		if (code === PLUS ||
+		    code === PLUS_URL_SAFE)
 			return 62 // '+'
-		if (code === SLASH)
+		if (code === SLASH ||
+		    code === SLASH_URL_SAFE)
 			return 63 // '/'
 		if (code < NUMBER)
 			return -1 //no match
@@ -1255,97 +1254,164 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 		return output
 	}
 
-	module.exports.toByteArray = b64ToByteArray
-	module.exports.fromByteArray = uint8ToBase64
-}())
+	exports.toByteArray = b64ToByteArray
+	exports.fromByteArray = uint8ToBase64
+}(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-}).call(this,require("/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/native-buffer-browserify/node_modules/base64-js/lib/b64.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/native-buffer-browserify/node_modules/base64-js/lib")
-},{"/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":3,"buffer":4}],6:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
+},{"buffer":3,"oMfpAn":6}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-exports.read = function(buffer, offset, isLE, mLen, nBytes) {
-  var e, m,
-      eLen = nBytes * 8 - mLen - 1,
-      eMax = (1 << eLen) - 1,
-      eBias = eMax >> 1,
-      nBits = -7,
-      i = isLE ? (nBytes - 1) : 0,
-      d = isLE ? -1 : 1,
-      s = buffer[offset + i];
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
 
-  i += d;
+  i += d
 
-  e = s & ((1 << (-nBits)) - 1);
-  s >>= (-nBits);
-  nBits += eLen;
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8);
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
 
-  m = e & ((1 << (-nBits)) - 1);
-  e >>= (-nBits);
-  nBits += mLen;
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8);
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
 
   if (e === 0) {
-    e = 1 - eBias;
+    e = 1 - eBias
   } else if (e === eMax) {
-    return m ? NaN : ((s ? -1 : 1) * Infinity);
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
   } else {
-    m = m + Math.pow(2, mLen);
-    e = e - eBias;
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
   }
-  return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
-};
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
 
-exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
-  var e, m, c,
-      eLen = nBytes * 8 - mLen - 1,
-      eMax = (1 << eLen) - 1,
-      eBias = eMax >> 1,
-      rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0),
-      i = isLE ? 0 : (nBytes - 1),
-      d = isLE ? 1 : -1,
-      s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0;
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
 
-  value = Math.abs(value);
+  value = Math.abs(value)
 
   if (isNaN(value) || value === Infinity) {
-    m = isNaN(value) ? 1 : 0;
-    e = eMax;
+    m = isNaN(value) ? 1 : 0
+    e = eMax
   } else {
-    e = Math.floor(Math.log(value) / Math.LN2);
+    e = Math.floor(Math.log(value) / Math.LN2)
     if (value * (c = Math.pow(2, -e)) < 1) {
-      e--;
-      c *= 2;
+      e--
+      c *= 2
     }
     if (e + eBias >= 1) {
-      value += rt / c;
+      value += rt / c
     } else {
-      value += rt * Math.pow(2, 1 - eBias);
+      value += rt * Math.pow(2, 1 - eBias)
     }
     if (value * c >= 2) {
-      e++;
-      c /= 2;
+      e++
+      c /= 2
     }
 
     if (e + eBias >= eMax) {
-      m = 0;
-      e = eMax;
+      m = 0
+      e = eMax
     } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen);
-      e = e + eBias;
+      m = (value * c - 1) * Math.pow(2, mLen)
+      e = e + eBias
     } else {
-      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
-      e = 0;
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
     }
   }
 
-  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8);
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
 
-  e = (e << mLen) | m;
-  eLen += mLen;
-  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8);
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
 
-  buffer[offset + i - d] |= s * 128;
+  buffer[offset + i - d] |= s * 128
+}
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
+},{"buffer":3,"oMfpAn":6}],6:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
 };
 
-}).call(this,require("/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/native-buffer-browserify/node_modules/ieee754/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/native-buffer-browserify/node_modules/ieee754")
-},{"/Users/bernardog/Github/gulp-project-template/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":3,"buffer":4}]},{},[1])
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
+},{"buffer":3,"oMfpAn":6}]},{},[1])

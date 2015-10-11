@@ -6,7 +6,7 @@
 var gulp     = require('gulp'),
 gutil        = require('gulp-util'),
 es           = require('event-stream'),
-sass         = require('gulp-sass'),
+//sass         = require('gulp-sass'),
 autoprefixer = require('gulp-autoprefixer'),
 jshint       = require('gulp-jshint'),
 coffee       = require('gulp-coffee'),
@@ -31,21 +31,21 @@ gulp.task('html', function () {
 });
 
 // sass compiler task
-gulp.task('sass', function () {
-  return gulp.src('./app/styles/**/*.scss')
-    .pipe(sass({
-      onError: function (error) {
-        gutil.log(gutil.colors.red(error));
-        gutil.beep();
-      },
-      onSuccess: function () {
-        gutil.log(gutil.colors.green('Sass styles compiled successfully.'));
-      }
-    }))
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest('./app/styles/'))
-    .pipe(connect.reload());
-});
+//gulp.task('sass', function () {
+//  return gulp.src('./app/styles/**/*.scss')
+//    .pipe(sass({
+//      onError: function (error) {
+//        gutil.log(gutil.colors.red(error));
+//        gutil.beep();
+//      },
+//      onSuccess: function () {
+//        gutil.log(gutil.colors.green('Sass styles compiled successfully.'));
+//      }
+//    }))
+//    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+//    .pipe(gulp.dest('./app/styles/'))
+//    .pipe(connect.reload());
+//});
 
 // Minify images
 gulp.task('imagemin', function () {
@@ -85,12 +85,12 @@ gulp.task('scripts', ['coffee'], function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch([ 'app/styles/**/*.scss'], ['sass']);
+  //gulp.watch([ 'app/styles/**/*.scss'], ['sass']);
   gulp.watch([ 'app/scripts' + '/**/*.js'], ['scripts']);
   gulp.watch(['./app/**/*.html'], ['html']);
 });
 
-gulp.task('serve', ['connect', 'sass', 'scripts', 'watch']);
+gulp.task('serve', ['connect', 'scripts', 'watch']);
 
 gulp.task('clean', function () {
   gutil.log('Clean task goes here...');
@@ -107,7 +107,7 @@ gulp.task('clean-build', function () {
     .pipe(clean());
 });
 
-gulp.task('build', ['clean-build', 'sass', 'scripts', 'imagemin', 'usemin'], function () {
+gulp.task('build', ['clean-build', 'scripts', 'imagemin', 'usemin'], function () {
 });
 
 gulp.task('default', function () {

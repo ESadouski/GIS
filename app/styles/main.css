@@ -1,3 +1,7 @@
 body {
   background: #f9f9f9;
   font-family: 'Heveltica', sans-serif; }
+
+#cnv {
+  border: #000000 1px solid;
+}

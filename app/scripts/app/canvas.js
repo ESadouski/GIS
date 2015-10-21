@@ -1,68 +1,41 @@
+var squares = [];
+var sizeSelect = document.getElementById("cnvSize");
+var lineValue = sizeSelect.options[sizeSelect.selectedIndex].value; //size of square
+var cnv = document.getElementById("cnv");
+var ctx = cnv.getContext("2d");
+
 function drawGrid() {
-    var cnv = document.getElementById("cnv");
+    var countOfRect = Math.floor(cnv.height / lineValue);
 
-    var gridOptions = {
-        separation: 30,
-        color: '#000000'
-    };
-
-    drawGridLines(cnv, gridOptions);
-
+    for (x=0; x < countOfRect; x++) {
+        squares [x] = [];
+        for (y=0; y < countOfRect; y++) {
+            squares [x][y] = true;
+            ctx.strokeRect(x * lineValue, y * lineValue, lineValue, lineValue);
+        }
+    }
 }
 
-function drawGridLines(cnv, line) {
+$('#cnv').click(function(event) {
+    e = event;
+    drawX = Math.floor(e.offsetX / lineValue);
+    drawY = Math.floor(e.offsetY / lineValue);
 
-
-    var iWidth = cnv.width;
-    var iHeight = cnv.height;
-
-    var ctx = cnv.getContext('2d');
-
-    ctx.strokeStyle = line.color;
-    ctx.strokeWidth = 1;
-
-    ctx.beginPath();
-
-    var iCount = null;
-    var i = null;
-    var x = null;
-    var y = null;
-
-    iCount = Math.floor(iWidth / line.separation);
-
-    for (i = 1; i <= iCount; i++) {
-        x = (i * line.separation);
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, iHeight);
-        ctx.stroke();
+    if (squares [drawX][drawY]) {
+        squares [drawX][drawY] = false;
+        ctx.fillRect(drawX*lineValue, drawY*lineValue, lineValue, lineValue);
+    } else {
+        squares [drawX][drawY] = true;
+        ctx.clearRect(drawX*lineValue, drawY*lineValue, lineValue, lineValue);
+        ctx.strokeRect(drawX * lineValue, drawY * lineValue, lineValue, lineValue);
     }
 
-
-    iCount = Math.floor(iHeight / line.separation);
-
-    for (i = 1; i <= iCount; i++) {
-        y = (i * line.separation);
-        ctx.moveTo(0, y);
-        ctx.lineTo(iWidth, y);
-        ctx.stroke();
-    }
-
-    ctx.closePath();
-
-    return;
-}
+    event.preventDefault();
+});
 
 function resizeCnv() {
-    var cnv = document.getElementById("cnv");
-    var ctx = cnv.getContext("2d");
-    var select = document.getElementById("cnvSize");
-    var lineValue = select.options[select.selectedIndex].value;
-
-    var gridOptions = {
-        separation: lineValue,
-        color: '#000000'
-    };
+    lineValue = sizeSelect.options[sizeSelect.selectedIndex].value;
 
     ctx.clearRect(0, 0, cnv.width, cnv.height);
-    drawGridLines(cnv, gridOptions);
+    drawGrid();
 }

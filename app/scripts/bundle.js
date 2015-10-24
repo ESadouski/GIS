@@ -1,24 +1,63 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var greet;
+var squares = [];
+var sizeSelect = document.getElementById("cnvSize");
+var lineValue = sizeSelect.options[sizeSelect.selectedIndex].value; //size of square
+var cnv = document.getElementById("cnv");
+var ctx = cnv.getContext("2d");
 
-greet = require('./greet');
+function drawGrid() {
+    var countOfRect = Math.floor(cnv.height / lineValue);
 
-console.log(greet('world!'));
+    for (x=0; x < countOfRect; x++) {
+        squares [x] = [];
+        for (y=0; y < countOfRect; y++) {
+            squares [x][y] = true;
+            ctx.strokeRect(x * lineValue, y * lineValue, lineValue, lineValue);
+        }
+    }
+}
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_2c674421.js","/")
-},{"./greet":2,"buffer":3,"oMfpAn":6}],2:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var greet;
+$('#cnv').click(function(event) {
+    e = event;
+    drawX = Math.floor(e.offsetX / lineValue);
+    drawY = Math.floor(e.offsetY / lineValue);
 
-greet = function(name) {
-  return console.log("Hello " + name);
-};
+    if (squares [drawX][drawY]) {
+        squares [drawX][drawY] = false;
+        ctx.fillRect(drawX*lineValue, drawY*lineValue, lineValue, lineValue);
+    } else {
+        squares [drawX][drawY] = true;
+        ctx.clearRect(drawX*lineValue, drawY*lineValue, lineValue, lineValue);
+        ctx.strokeRect(drawX * lineValue, drawY * lineValue, lineValue, lineValue);
+    }
 
-module.exports = greet;
+    event.preventDefault();
+});
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/greet.js","/")
-},{"buffer":3,"oMfpAn":6}],3:[function(require,module,exports){
+function resizeCnv() {
+    lineValue = sizeSelect.options[sizeSelect.selectedIndex].value;
+
+    ctx.clearRect(0, 0, cnv.width, cnv.height);
+    drawGrid();
+}
+
+function paintOverBySquares() {
+    squares[5][5] = false;
+    squares[10][15] = false;
+    for(x=0; x < squares.length; x++) {
+        for(y=0; y<squares.length; y++) {
+            if (squares[x][y] === false) {
+                ctx.fillRect(x * lineValue, y * lineValue, lineValue, lineValue);
+            } else {
+                ctx.clearRect(x*lineValue, y*lineValue, lineValue, lineValue);
+                ctx.strokeRect(x * lineValue, y * lineValue, lineValue, lineValue);
+            }
+        }
+    }
+}
+}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_e30feafe.js","/")
+},{"+7ZJp0":5,"buffer":2}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -1130,8 +1169,8 @@ function assert (test, message) {
   if (!test) throw new Error(message || 'Failed assertion')
 }
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
-},{"base64-js":4,"buffer":3,"ieee754":5,"oMfpAn":6}],4:[function(require,module,exports){
+}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
+},{"+7ZJp0":5,"base64-js":3,"buffer":2,"ieee754":4}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -1258,8 +1297,8 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
-},{"buffer":3,"oMfpAn":6}],5:[function(require,module,exports){
+}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
+},{"+7ZJp0":5,"buffer":2}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
@@ -1346,8 +1385,8 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
-},{"buffer":3,"oMfpAn":6}],6:[function(require,module,exports){
+}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
+},{"+7ZJp0":5,"buffer":2}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // shim for using process in browser
 
@@ -1413,5 +1452,5 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
-},{"buffer":3,"oMfpAn":6}]},{},[1])
+}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
+},{"+7ZJp0":5,"buffer":2}]},{},[1])

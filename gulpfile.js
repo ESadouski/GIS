@@ -71,7 +71,7 @@ gulp.task('coffee', function () {
 
 // Script task
 gulp.task('scripts', ['coffee'], function () {
-  return gulp.src('app/scripts/app.js')
+  return gulp.src('app/scripts/app/canvas.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(browserify({

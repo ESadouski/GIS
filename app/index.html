@@ -7,26 +7,61 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     </head>
     <body onload="drawGrid()">
 
-        <select id="cnvSize" onchange="resizeCnv()">
-            <option value="10">small</option>
-            <option value="25" selected >mid</option>
-            <option value="50">large</option>
-        </select>
-        <p>Have a happy coding, Rudnik!</p>
+    <div class="container-fluid">
+        <div class="row work-panel">
+            <div class="col-md-2">
+                <select id="cnvSize" class="form-control" onchange="resizeCnv()">
+                    <option value="10">small  (50x50)</option>
+                    <option value="25" selected >mid  (25x25)</option>
+                    <option value="50">large  (10x10)</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <button id="startBtn" class="btn btn-info">start</button>
+                <button id="nextBtn" class="btn btn-info">next</button>
+                <button id="clearBtn" class="btn btn-info">clear</button>
+            </div>
+        </div>
+        <div class="row" id="content">
+            <div id="navbar" class="col-md-2">
+                <div class="radio">
+                    <label><input type="radio" name="optradio">DDA</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio">BR</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio">BY</label>
+                </div>
+            </div>
 
-        <canvas id="cnv" width="500" height="500"></canvas>
+            <div class="col-md-4">
+                <div id="cnvDiv">
+                    <canvas id="cnv" width="500" height="500"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 
+
+
+
+        <button id="ddaBtn">runDDA</button>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
         <!-- build:js script.js -->
         <script src="scripts/app/canvas.js"></script>
         <script src="scripts/bundle.js"></script>
         <!-- endbuild -->
+
+        <script src="scripts/app/lab1.js"></script>
 
     </body>
 </html>

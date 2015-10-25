@@ -4,4 +4,31 @@ body {
 
 #cnv {
   border: #000000 1px solid;
+  margin-top: 10%;
+  margin-left: 5%;
+}
+
+.btn-info {
+  margin-left: 10px;
+  background-color: #FFFFFF !important;
+  border-color: #000000 !important;
+  color: #838383 !important;
+}
+
+#clearBtn {
+  margin-left: 50px;
+}
+
+.work-panel {
+  height: 60px;
+  background-color: #394A5A;
+  padding-top: 12px;
+}
+
+#content {
+  height: 100%;
+}
+
+#navbar {
+  height: 70%;
 }

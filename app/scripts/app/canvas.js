@@ -41,10 +41,8 @@ function resizeCnv() {
 }
 
 function paintOverBySquares() {
-    squares[5][5] = false;
-    squares[10][15] = false;
     for(x=0; x < squares.length; x++) {
-        for(y=0; y<squares.length; y++) {
+        for(y=0; y < squares.length; y++) {
             if (squares[x][y] === false) {
                 ctx.fillRect(x * lineValue, y * lineValue, lineValue, lineValue);
             } else {

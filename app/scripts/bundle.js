@@ -43,10 +43,8 @@ function resizeCnv() {
 }
 
 function paintOverBySquares() {
-    squares[5][5] = false;
-    squares[10][15] = false;
     for(x=0; x < squares.length; x++) {
-        for(y=0; y<squares.length; y++) {
+        for(y=0; y < squares.length; y++) {
             if (squares[x][y] === false) {
                 ctx.fillRect(x * lineValue, y * lineValue, lineValue, lineValue);
             } else {
@@ -56,7 +54,7 @@ function paintOverBySquares() {
         }
     }
 }
-}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_e30feafe.js","/")
+}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_6fb18086.js","/")
 },{"+7ZJp0":5,"buffer":2}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!

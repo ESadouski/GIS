@@ -1,67 +1,64 @@
 <!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>GIS</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>GIS</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="styles/main.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    </head>
-    <body onload="drawGrid()">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body onload="drawGrid()">
 
-    <div class="container-fluid">
-        <div class="row work-panel">
-            <div class="col-md-2">
-                <select id="cnvSize" class="form-control" onchange="resizeCnv()">
-                    <option value="10">small  (50x50)</option>
-                    <option value="25" selected >mid  (25x25)</option>
-                    <option value="50">large  (10x10)</option>
-                </select>
+<div class="container-fluid">
+    <div class="row work-panel">
+        <div class="col-md-2">
+            <select id="cnvSize" class="form-control" onchange="resizeCnv()">
+                <option value="10">small (50x50)</option>
+                <option value="25" selected>mid (25x25)</option>
+                <option value="50">large (10x10)</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <button id="startBtn" class="btn btn-info">start</button>
+            <button id="nextBtn" class="btn btn-info">next</button>
+            <button id="clearBtn" class="btn btn-info">clear</button>
+        </div>
+    </div>
+    <div class="row" id="content">
+        <div id="navbar" class="col-md-2">
+            <div class="radio">
+                <label><input type="radio" name="optradio" value="drawDDA" checked="checked">DDA</label>
             </div>
-            <div class="col-md-6">
-                <button id="startBtn" class="btn btn-info">start</button>
-                <button id="nextBtn" class="btn btn-info">next</button>
-                <button id="clearBtn" class="btn btn-info">clear</button>
+            <div class="radio">
+                <label><input type="radio" name="optradio" value="drawBresenham">Bresenham</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio">BY</label>
             </div>
         </div>
-        <div class="row" id="content">
-            <div id="navbar" class="col-md-2">
-                <div class="radio">
-                    <label><input type="radio" name="optradio">DDA</label>
-                </div>
-                <div class="radio">
-                    <label><input type="radio" name="optradio">BR</label>
-                </div>
-                <div class="radio">
-                    <label><input type="radio" name="optradio">BY</label>
-                </div>
-            </div>
 
-            <div class="col-md-4">
-                <div id="cnvDiv">
-                    <canvas id="cnv" width="500" height="500"></canvas>
-                </div>
+        <div class="col-md-4">
+            <div id="cnvDiv">
+                <canvas id="cnv" width="500" height="500"></canvas>
             </div>
         </div>
     </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<!-- build:js script.js -->
+<script src="scripts/app/canvas.js"></script>
+<script src="scripts/bundle.js"></script>
+<!-- endbuild -->
+
+<script src="scripts/app/laba1/bresenham.js"></script>
+<script src="scripts/app/laba1/dda.js"></script>
 
 
-
-
-        <button id="ddaBtn">runDDA</button>
-
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-        <!-- build:js script.js -->
-        <script src="scripts/app/canvas.js"></script>
-        <script src="scripts/bundle.js"></script>
-        <!-- endbuild -->
-
-        <script src="scripts/app/lab1.js"></script>
-
-    </body>
+</body>
 </html>

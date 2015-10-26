@@ -4,6 +4,8 @@ var lineValue = sizeSelect.options[sizeSelect.selectedIndex].value; //size of sq
 var cnv = document.getElementById("cnv");
 var ctx = cnv.getContext("2d");
 
+var filledSquares = [];
+
 function drawGrid() {
     var countOfRect = Math.floor(cnv.height / lineValue);
 
@@ -48,6 +50,35 @@ function paintOverBySquares() {
             } else {
                 ctx.clearRect(x*lineValue, y*lineValue, lineValue, lineValue);
                 ctx.strokeRect(x * lineValue, y * lineValue, lineValue, lineValue);
+            }
+        }
+    }
+}
+
+$("#startBtn").click(function() {
+    var algorithm = $('input[name="optradio"]:checked').val();
+    window[algorithm].call();
+});
+
+$("#clearBtn").click(function() {
+    for(x=0; x < squares.length; x++) {
+        for(y=0; y < squares.length; y++) {
+            squares[x][y] = true;
+        }
+    }
+    paintOverBySquares();
+});
+
+function fillSquares() {
+    filledSquares = [];
+    for(x=0; x < squares.length; x++) {
+        for(y=0; y < squares.length; y++) {
+            if (squares[x][y] === false) {
+                var square = {
+                    xCord: x,
+                    yCord: y
+                };
+                filledSquares.push(square);
             }
         }
     }

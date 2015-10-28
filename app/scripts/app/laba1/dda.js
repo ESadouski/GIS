@@ -1,26 +1,18 @@
-function drawDDA() {
-    fillSquares();
+function doDDA(x1, y1, x2, y2) {
+    var length;
 
-    var startX = filledSquares[0].xCord;
-    var startY = filledSquares[0].yCord;
-    var endX = filledSquares[1].xCord;
-    var endY = filledSquares[1].yCord;
-    var l;
-
-    if (Math.abs(endX - startX) > Math.abs(endY - startY)) {
-        l = Math.abs(endX - startX);
+    if (Math.abs(x2 - x1) > Math.abs(y2 - y1)) {
+        length = Math.abs(x2 - x1);
     } else {
-        l = Math.abs(endY - startY);
+        length = Math.abs(y2 - y1);
     }
 
-    var incrementX = (endX - startX)/l;
-    var incrementY = (endY - startY)/l;
+    var incrementX = (x2 - x1) / length;
+    var incrementY = (y2 - y1) / length;
 
-    for(i=0; i < l; i++) {
-        startX += incrementX;
-        startY += incrementY;
-        squares[Math.floor(startX)][Math.floor(startY)] = false;
+    for(var i = 0; i < length; i++) {
+        x1 += incrementX;
+        y1 += incrementY;
+        squares[Math.floor(x1)][Math.floor(y1)] = false;
     }
-
-    paintOverBySquares();
 }

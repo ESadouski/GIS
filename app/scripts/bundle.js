@@ -6,6 +6,8 @@ var lineValue = sizeSelect.options[sizeSelect.selectedIndex].value; //size of sq
 var cnv = document.getElementById("cnv");
 var ctx = cnv.getContext("2d");
 
+var filledSquares = [];
+
 function drawGrid() {
     var countOfRect = Math.floor(cnv.height / lineValue);
 
@@ -54,7 +56,36 @@ function paintOverBySquares() {
         }
     }
 }
-}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_6fb18086.js","/")
+
+$("#startBtn").click(function() {
+    var algorithm = $('input[name="optradio"]:checked').val();
+    window[algorithm].call();
+});
+
+$("#clearBtn").click(function() {
+    for(x=0; x < squares.length; x++) {
+        for(y=0; y < squares.length; y++) {
+            squares[x][y] = true;
+        }
+    }
+    paintOverBySquares();
+});
+
+function fillSquares() {
+    filledSquares = [];
+    for(x=0; x < squares.length; x++) {
+        for(y=0; y < squares.length; y++) {
+            if (squares[x][y] === false) {
+                var square = {
+                    xCord: x,
+                    yCord: y
+                };
+                filledSquares.push(square);
+            }
+        }
+    }
+}
+}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_c2ed6743.js","/")
 },{"+7ZJp0":5,"buffer":2}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!

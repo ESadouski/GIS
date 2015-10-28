@@ -1,23 +1,19 @@
-function drawBresenham() {
-
-    fillSquares();
-
-    var startX = filledSquares[0].xCord;
-    var startY = filledSquares[0].yCord;
-    var endX = filledSquares[1].xCord;
-    var endY = filledSquares[1].yCord;
-
-    var dx = Math.abs(endX - startX), sx = startX < endX ? 1 : -1;
-    var dy = Math.abs(endY - startY), sy = startY < endY ? 1 : -1;
+function doBresenham(x1, y1, x2, y2) {
+    var dx = Math.abs(x2 - x1), sx = x1 < x2 ? 1 : -1;
+    var dy = Math.abs(y2 - y1), sy = y1 < y2 ? 1 : -1;
     var err = (dx>dy ? dx : -dy)/2;
 
     while (true) {
-        squares[startX][startY] = false;
-        if (startX === endX && startY === endY) break;
+        squares[x1][y1] = false;
+        if (x1 === x2 && y1 === y2) {
+            break;
+        }
         var e2 = err;
-        if (e2 > -dx) { err -= dy; startX += sx; }
-        if (e2 < dy) { err += dx; startY += sy; }
+        if (e2 > -dx) {
+            err -= dy; x1 += sx;
+        }
+        if (e2 < dy) {
+            err += dx; y1 += sy;
+        }
     }
-
-    paintOverBySquares();
 }

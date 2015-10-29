@@ -21,21 +21,21 @@
             </select>
         </div>
         <div class="col-md-6">
-            <label><input type="checkbox" name="debugBtn" value="debug">Debug</label>
-            <button id="nextBtn" class="btn btn-info">next</button>
-            <button id="clearBtn" class="btn btn-info">clear</button>
+            <label><input type="checkbox" name="debugBtn" value="true">Debug</label>
+            <button id="nextBtn" class="btn btn-info">Next</button>
+            <button id="clearBtn" class="btn btn-info">Clear</button>
         </div>
     </div>
     <div class="row" id="content">
         <div id="navbar" class="col-md-2">
             <div class="radio">
-                <label><input type="radio" name="optradio" value="DDA" checked="checked">DDA</label>
+                <label><input type="radio" name="optradio" value="doDDA" checked="checked">DDA</label>
             </div>
             <div class="radio">
-                <label><input type="radio" name="optradio" value="Bresenham">Bresenham</label>
+                <label><input type="radio" name="optradio" value="doBresenham">Bresenham</label>
             </div>
             <div class="radio">
-                <label><input type="radio" name="optradio">BY</label>
+                <label><input type="radio" name="optradio" value="=doVY">VY</label>
             </div>
         </div>
 
@@ -58,6 +58,7 @@
 
 <script src="scripts/app/laba1/bresenham.js"></script>
 <script src="scripts/app/laba1/dda.js"></script>
+<script src="scripts/app/laba1/vy.js"></script>
 
 
 </body>

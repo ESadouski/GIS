@@ -1,4 +1,5 @@
 function doDDA(x1, y1, x2, y2) {
+    var usedPixels = [];
     var length;
 
     if (Math.abs(x2 - x1) > Math.abs(y2 - y1)) {
@@ -13,6 +14,11 @@ function doDDA(x1, y1, x2, y2) {
     for (var i = 0; i < length; i++) {
         x1 += incrementX;
         y1 += incrementY;
-        squares[Math.floor(x1)][Math.floor(y1)] = false;
+        usedPixels[i] = {
+            x: Math.floor(x1),
+            y: Math.floor(y1),
+            e: 1
+        };
     }
+    return usedPixels;
 }

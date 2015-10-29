@@ -15,6 +15,10 @@ body {
   color: #838383 !important;
 }
 
+.clicked {
+  background-color: #EFB40E !important;
+}
+
 #clearBtn {
   margin-left: 50px;
 }

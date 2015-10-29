@@ -1,91 +1,121 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var squares = [];
 var sizeSelect = document.getElementById("cnvSize");
-var lineValue = sizeSelect.options[sizeSelect.selectedIndex].value; //size of square
+var lineValue = sizeSelect.options[sizeSelect.selectedIndex].value; //square size
 var cnv = document.getElementById("cnv");
 var ctx = cnv.getContext("2d");
+var rectCount;
 
-var filledSquares = [];
+var isFirstPixel = true;
+var debugIndex = 0;
+var debugMode = false;
+
+const dots = [4];
 
 function drawGrid() {
-    var countOfRect = Math.floor(cnv.height / lineValue);
-
-    for (x=0; x < countOfRect; x++) {
-        squares [x] = [];
-        for (y=0; y < countOfRect; y++) {
-            squares [x][y] = true;
+    rectCount = Math.floor(cnv.height / lineValue);
+    for (var x = 0; x < rectCount; x++) {
+        for (var y = 0; y < rectCount; y++) {
             ctx.strokeRect(x * lineValue, y * lineValue, lineValue, lineValue);
         }
     }
 }
 
-$('#cnv').click(function(event) {
-    e = event;
-    drawX = Math.floor(e.offsetX / lineValue);
-    drawY = Math.floor(e.offsetY / lineValue);
-
-    if (squares [drawX][drawY]) {
-        squares [drawX][drawY] = false;
-        ctx.fillRect(drawX*lineValue, drawY*lineValue, lineValue, lineValue);
-    } else {
-        squares [drawX][drawY] = true;
-        ctx.clearRect(drawX*lineValue, drawY*lineValue, lineValue, lineValue);
-        ctx.strokeRect(drawX * lineValue, drawY * lineValue, lineValue, lineValue);
-    }
-
-    event.preventDefault();
-});
-
 function resizeCnv() {
     lineValue = sizeSelect.options[sizeSelect.selectedIndex].value;
-
     ctx.clearRect(0, 0, cnv.width, cnv.height);
     drawGrid();
 }
 
-function paintOverBySquares() {
-    for(x=0; x < squares.length; x++) {
-        for(y=0; y < squares.length; y++) {
-            if (squares[x][y] === false) {
-                ctx.fillRect(x * lineValue, y * lineValue, lineValue, lineValue);
-            } else {
-                ctx.clearRect(x*lineValue, y*lineValue, lineValue, lineValue);
-                ctx.strokeRect(x * lineValue, y * lineValue, lineValue, lineValue);
-            }
-        }
+function drawLine(drownPixels) {
+    for (var i = 0; i < drownPixels.length; i++) {
+        plot(drownPixels[i].x, drownPixels[i].y, drownPixels[i].e);
     }
 }
 
-$("#startBtn").click(function() {
-    var algorithm = $('input[name="optradio"]:checked').val();
-    window[algorithm].call();
+function debugLine(drownPixels) {
+    if (debugIndex === 0) {
+        console.log("Debug mode activated");
+    }
+    if (debugIndex > drownPixels.length) {
+        console.log("Debug was done");
+        return;
+    }
+    const x = drownPixels[debugIndex].x;
+    const y = drownPixels[debugIndex].y;
+    const e = drownPixels[debugIndex].e;
+    plot(x, y, e);
+    console.log("Plot pixel(" + x + ";" + y + ") " + "with intensive " + e);
+    console.log(debugIndex);
+    debugIndex++;
+}
+
+function plot(x, y, e) {
+    if (e !== null) {
+        ctx.globalAlpha=e;
+    } else {
+        ctx.globalAlpha=1;
+    }
+    ctx.fillRect(x * lineValue, y * lineValue, lineValue, lineValue);
+}
+
+function doAlgorithm() {
+    const algorithm = $('input[name="optradio"]:checked').val();
+    //window[algorithm].apply(this, dots);
+    //window[algorithm].call();
+    switch (algorithm) {
+        case 'doDDA' :
+            return doDDA(dots[0], dots[1], dots[2], dots[3]);
+        case 'doBresenham' :
+            return doBresenham(dots[0], dots[1], dots[2], dots[3]);
+        case 'doWU' :
+            return doWU(dots[0], dots[1], dots[2], dots[3]);
+
+    }
+}
+
+$('#cnv').click(function(event) {
+    //debugMode = $('#debugBtn').hasClass
+    //debugMode = $('input[name="debugBtn"]:checked').val() ? true : false;
+    const e = event;
+    const drawX = Math.floor(e.offsetX / lineValue);
+    const drawY = Math.floor(e.offsetY / lineValue);
+
+    if (isFirstPixel) {
+        dots[0] = drawX;
+        dots[1] = drawY;
+    } else {
+        dots[2] = drawX;
+        dots[3] = drawY;
+        debugIndex = 0;
+        if (!debugMode) {
+            drawLine(doAlgorithm());
+        }
+    }
+    plot(drawX, drawY, 1);
+    isFirstPixel = !isFirstPixel;
+
+    event.preventDefault();
+});
+
+$("#nextBtn").click(function() {
+    if(debugMode) {
+        debugLine(doAlgorithm());
+    }
+
 });
 
 $("#clearBtn").click(function() {
-    for(x=0; x < squares.length; x++) {
-        for(y=0; y < squares.length; y++) {
-            squares[x][y] = true;
+    for (var x = 0; x < rectCount; x++) {
+        for (var y = 0; y < rectCount; y++) {
+            ctx.clearRect(x * lineValue, y * lineValue, lineValue, lineValue);
+            ctx.strokeRect(x * lineValue, y * lineValue, lineValue, lineValue);
         }
     }
-    paintOverBySquares();
 });
 
-function fillSquares() {
-    filledSquares = [];
-    for(x=0; x < squares.length; x++) {
-        for(y=0; y < squares.length; y++) {
-            if (squares[x][y] === false) {
-                var square = {
-                    xCord: x,
-                    yCord: y
-                };
-                filledSquares.push(square);
-            }
-        }
-    }
-}
-}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_c2ed6743.js","/")
+$('#debugBtn')
+}).call(this,require("+7ZJp0"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_3c406be4.js","/")
 },{"+7ZJp0":5,"buffer":2}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!

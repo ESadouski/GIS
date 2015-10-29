@@ -32,7 +32,7 @@ function drawLine(drownPixels) {
 }
 
 function debugLine(drownPixels) {
-    if (debugIndex == 0) {
+    if (debugIndex === 0) {
         console.log("Debug mode activated");
     }
     if (debugIndex > drownPixels.length) {
@@ -45,10 +45,15 @@ function debugLine(drownPixels) {
     plot(x, y, e);
     console.log("Plot pixel(" + x + ";" + y + ") " + "with intensive " + e);
     console.log(debugIndex);
-    debugIndex++
+    debugIndex++;
 }
 
 function plot(x, y, e) {
+    if (e !== null) {
+        ctx.globalAlpha=e;
+    } else {
+        ctx.globalAlpha=1;
+    }
     ctx.fillRect(x * lineValue, y * lineValue, lineValue, lineValue);
 }
 
@@ -61,14 +66,13 @@ function doAlgorithm() {
             return doDDA(dots[0], dots[1], dots[2], dots[3]);
         case 'doBresenham' :
             return doBresenham(dots[0], dots[1], dots[2], dots[3]);
-        case 'doVY' :
-            return doVY(dots[0], dots[1], dots[2], dots[3]);
+        case 'doWU' :
+            return doWU(dots[0], dots[1], dots[2], dots[3]);
 
     }
 }
 
 $('#cnv').click(function(event) {
-    debugMode = $('input[name="debugBtn"]:checked').val() ? true : false;
     const e = event;
     const drawX = Math.floor(e.offsetX / lineValue);
     const drawY = Math.floor(e.offsetY / lineValue);
@@ -105,3 +109,12 @@ $("#clearBtn").click(function() {
         }
     }
 });
+
+$('#debugBtn').click(function() {
+    $(this).toggleClass("clicked");
+    if ($(this).hasClass("clicked")) {
+        debugMode = true;
+    } else {
+        debugMode = false;
+    }
+    });

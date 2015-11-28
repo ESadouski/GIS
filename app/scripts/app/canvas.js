@@ -35,7 +35,8 @@ function debugLine(drownPixels) {
     if (debugIndex === 0) {
         console.log("Debug mode activated");
     }
-    if (debugIndex > drownPixels.length) {
+    //console.log(debugIndex);
+    if (debugIndex >= drownPixels.length) {
         console.log("Debug was done");
         return;
     }
@@ -43,8 +44,7 @@ function debugLine(drownPixels) {
     const y = drownPixels[debugIndex].y;
     const e = drownPixels[debugIndex].e;
     plot(x, y, e);
-    console.log("Plot pixel(" + x + ";" + y + ") " + "with intensive " + e);
-    console.log(debugIndex);
+    console.log("Step #" + (debugIndex + 1) + ". Plot pixel(" + x + ";" + y + ") " + "with intensive " + e.toFixed(1));
     debugIndex++;
 }
 
